@@ -15,12 +15,146 @@ void test(char& ans, string& makeModel, string& unitNum, string& serialNum, stri
 void serviceSwitch(string& makeModel, string& unitNum, string& mechanic, string& date, int& hrMi, string& x);
 void repair();
 void repairService(char& ans, string& makeModel, string& unitNum, string& serialNum, string& plate);
+void ticket();
+void createTicket();
+void status();
+void statusChange();
 
 int main() {
 
 	menu();
 
 	return 0;
+}
+
+void statusChange()
+{
+	string a, b, c, d, e;
+	string makeModel1, eqNum1, date1;
+	ifstream fileIn("fileref.txt");
+	cout << "Enter the make Model, Equipt Number and date" << endl; cin >> makeModel1 >> eqNum1 >> date1;
+	fileIn >> a >> b >> c >> d >> e;
+	cout << a << b << c << d << e;
+
+	if (makeModel1 == a)
+	{
+		if (eqNum1 != b)
+		{
+			cout << "Equiptment Number Doesnt Exist!" << endl;
+		}
+		else if (eqNum1 == b)
+		{
+			if (date1 != c)
+			{
+
+			}
+			else if (date1 == c)
+			{
+				cout << "Bingo" << endl;
+			}
+			else
+			{
+				cout << "Date is Broken!";
+			}
+		}
+		else
+		{
+			cout << "Error 1" << endl;
+		}
+	}
+	else if (makeModel1 != a && eqNum1 != b)
+	{
+		cout << "Make/Model does not exist!" << endl;
+	}
+	else
+	{
+		cout << "WTH";
+	}
+	fileIn.close();
+	ticket();
+}
+
+void status()
+{
+	string makeModel, eqNum, date, issue, status;
+	char ans = 'y' || 'Y';
+	int hours, serinterval;
+	ifstream fileIn("fileref.txt", ios::app);
+	while (!fileIn.eof())
+	{
+		fileIn >> makeModel >> eqNum >> date >> issue >> hours >> serinterval >> status;
+		cout   << "\nOpen Jobs " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
+			   << " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl << endl;
+	}
+	fileIn.close();
+	ticket();
+}
+
+void createTicket() {
+	string makeModel, eqNum, date, issue, status;
+	char ans = 'y' || 'Y';
+	int hours, serinterval;
+	ofstream fileOut("tickets.txt", ios::app);
+	ofstream fileIn("fileref.txt", ios::app);
+	cout << "Please enter equiptment maitnence or repair information " << "Order (MakeModel, Equiptment Number, Date, Issue, Hours, Next Service Date: )";
+	cin >> makeModel >> eqNum >> date >> issue >> hours >> serinterval;
+	if (issue == "none" || "None")
+	{
+		status = "Okay";
+	}
+	else
+	{
+		status = "Open";
+	}
+		cout << "The Machine being written Up is " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
+			<< " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl;
+		cout << "Is this correct? (y for Yes)" << endl; cin >> ans;
+		if (ans == 'y' || ans == 'Y')
+		{
+			fileOut << "\nThe Machine being written Up is " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
+				<< " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl;
+			fileIn << endl << makeModel << " " << eqNum << " " << date << " " << issue << " " << hours << " " << serinterval << " " << status;
+			cout << "\nDo You want to add another machine? (Y for yes): "; cin >> ans;
+			if (ans == 'y' || ans == 'Y')
+			{
+				createTicket();
+			}
+			else
+			{
+				fileOut.close();
+				fileIn.close();
+				menu();
+			}
+		}
+		else
+		{
+			createTicket();
+		}
+}
+
+void ticket() {
+
+	int choice;
+	cout << " 1) Create Ticket \n 2) Status Check On Tickets \n 3) Change Status \n 4) Main Menu \n";
+	cout << "Choose what you would like to do" << endl; cin >> choice;
+	switch (choice)
+	{
+	case 1:
+		createTicket();
+		break;
+	case 2:
+		status();
+		break;
+	case 3:
+		statusChange();
+		break;
+	case 4:
+		menu();
+		break;
+	default:
+		cout << "Not a choice!";
+		ticket();
+	}
 }
 
 void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& date, int& hrMi, string& x) {
@@ -33,9 +167,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 	switch (quickjob)
 	{
 	case 1: //Engine
-		cout << "Send Out Oil Sample" << endl;
+		cout << "Engine Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Sent Out Oil Sample \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Engine Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -59,9 +193,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 2: // Fuel System
-		cout << "Changed Oil and Filters" << endl;
+		cout << "Fuel System Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Oil and Filters \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Fuel System Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -85,9 +219,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 3://Ignition System
-		cout << "Changed Fuel Filters" << endl;
+		cout << "Ignition System Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Fuel Filters \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Ignition System Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -111,9 +245,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 4://Electrical System
-		cout << "Changed Air Filters" << endl;
+		cout << "Electrical System Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Air Filters \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Electrical System Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -137,9 +271,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 5://Exhaust System
-		cout << "Greased Machine" << endl;
+		cout << "Exhaust System Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Greased Machine \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Exhaust System Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -163,9 +297,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 6:// Drive Train
-		cout << "Radiator Service" << endl;
+		cout << "Drive Train Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Radiator Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Drive Train Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -189,9 +323,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 7://Suspension and Steering System
-		cout << "Transmission Service" << endl;
+		cout << "Suspension and Steering Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Transmission Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Suspension and Steering Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -214,9 +348,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 			menu();
 		}
 	case 8://Brake Systems
-		cout << "Rears Service" << endl;
+		cout << "Brake System" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Rears Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Brake System \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -240,9 +374,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 9://Frame and Body Repair
-		cout << "Front Wheels Service" << endl;
+		cout << "Frame and Body Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Front Wheels Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Frame and Body Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -266,9 +400,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 10://Cooling System
-		cout << "Tire Pressure Ajustments" << endl;
+		cout << "Cooling System Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Tire Pressure Adjustments \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Cooling Systems Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -292,9 +426,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 11://Tire Repair
-		cout << "Lights Service" << endl;
+		cout << "Tire Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Lights Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Tire Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -318,9 +452,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 12://Interior Repair
-		cout << "Brakes Service" << endl;
+		cout << "Interior Repair" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Brakes Service \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Interior Repair \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -344,9 +478,9 @@ void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& 
 		}
 		break;
 	case 13://Other
-		cout << "Misc Service See Notes" << endl;
+		cout << "Misc Repair See Notes" << endl;
 		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Misc Service See Notes \n";
+		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Misc Repair See Notes \n";
 		cin >> qty >> partNum >> partDiscrpt >> work;
 		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
@@ -564,7 +698,7 @@ void menu() {
 		cout << unitNum << " - " << makeModel << " - " << serialNum << " - " << plate << endl;
 	}
 	file.close();
-	cout << "\n 1) Standard Service \n 2) Repairs \n 3) Add New Equiptment \n 4) Exit Program \n";
+	cout << "\n 1) Standard Service \n 2) Repairs \n 3) Add New Equiptment \n 4) Exit Program \n 5) Tickets \n";
 	cout << "Choose what you would like to do: "; cin >> choice;
 	switch (choice)
 	{
@@ -579,6 +713,9 @@ void menu() {
 		break;
 	case 4:
 		exit(1);
+		break;
+	case 5:
+		ticket();
 		break;
 	default:
 		cout << "Not a choice try again!" << endl;
