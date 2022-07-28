@@ -29,73 +29,80 @@ int main() {
 
 void statusChange()
 {
-	string a, b, c, d, e;
-	string makeModel1, eqNum1, date1;
-	ifstream fileIn("fileref.txt");
-	cout << "Enter the make Model, Equipt Number and date" << endl; cin >> makeModel1 >> eqNum1 >> date1;
-	fileIn >> a >> b >> c >> d >> e;
-	cout << a << b << c << d << e;
+	string makeModel, eqNum, date, issue, status;
+	string a, b, c, d, e, f, g, h;
+	char ans = 'y' || 'Y';
+	int hours, serinterval, Wo = 0,pwo,choice;
+	ifstream fileIn("tickets.txt");
+	ofstream fileOut("tickets.txt", ios::app);
+	cout << "Enter Work Order Number" << endl; cin >> pwo;
+	do
+	{
+		fileIn >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
+		if (pwo == Wo)
+		{
+			break;
+		}
+	} while (!fileIn.eof());
+	cout << a << Wo << b << makeModel << c << eqNum << d << date << e << issue << f << hours << g << serinterval << h << status << endl;
+	cout << "Is the the ticket you wanted?(Y for yes): "; cin >> ans;
+	if (ans == 'y' || ans == 'Y')
+	{
+		cout << "\nChange status 1) Done 2) Working on;"; cin >> choice;
 
-	if (makeModel1 == a)
-	{
-		if (eqNum1 != b)
+		switch (choice)
 		{
-			cout << "Equiptment Number Doesnt Exist!" << endl;
+		case 1:
+			status = "Done";
+			cout << "Enter the date: "; cin >> date;
+			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
+				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
+			break;
+		case 2:
+			status = "Working on";
+			cout << "Enter the date: "; cin >> date;
+			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
+				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
+			break;
+		default:
+			cout << "Not a choice!";
+			statusChange();
 		}
-		else if (eqNum1 == b)
-		{
-			if (date1 != c)
-			{
-
-			}
-			else if (date1 == c)
-			{
-				cout << "Bingo" << endl;
-			}
-			else
-			{
-				cout << "Date is Broken!";
-			}
-		}
-		else
-		{
-			cout << "Error 1" << endl;
-		}
+		fileIn.close();
+		fileOut.close();
 	}
-	else if (makeModel1 != a && eqNum1 != b)
-	{
-		cout << "Make/Model does not exist!" << endl;
-	}
-	else
-	{
-		cout << "WTH";
-	}
-	fileIn.close();
 	ticket();
 }
 
 void status()
 {
 	string makeModel, eqNum, date, issue, status;
+	string a, b, c, d, e, f, g, h;
 	char ans = 'y' || 'Y';
-	int hours, serinterval;
-	ifstream fileIn("fileref.txt", ios::app);
-	while (!fileIn.eof())
-	{
-		fileIn >> makeModel >> eqNum >> date >> issue >> hours >> serinterval >> status;
-		cout   << "\nOpen Jobs " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
-			   << " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl << endl;
-	}
+	int hours, serinterval,Wo=0,pwo;
+	ifstream fileIn("tickets.txt");
+		do
+		{
+			pwo = Wo;
+			fileIn >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
+			if (pwo == Wo)
+			{
+				break;
+			}
+			cout << a << Wo << b << makeModel << c << eqNum << d << date << e << issue << f << hours << g << serinterval << h << status << endl;
+		}while (!fileIn.eof());
+		cout << endl << endl;
 	fileIn.close();
 	ticket();
 }
 
 void createTicket() {
 	string makeModel, eqNum, date, issue, status;
+	string a, b, c, d, e, f, g, h;
 	char ans = 'y' || 'Y';
-	int hours, serinterval;
+	int hours, serinterval, Wo=0;
 	ofstream fileOut("tickets.txt", ios::app);
-	ofstream fileIn("fileref.txt", ios::app);
+	ifstream fin("tickets.txt", ios::app);
 	cout << "Please enter equiptment maitnence or repair information " << "Order (MakeModel, Equiptment Number, Date, Issue, Hours, Next Service Date: )";
 	cin >> makeModel >> eqNum >> date >> issue >> hours >> serinterval;
 	if (issue == "none" || "None")
@@ -106,14 +113,18 @@ void createTicket() {
 	{
 		status = "Open";
 	}
-		cout << "The Machine being written Up is " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
-			<< " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl;
+	while (!fin.eof())
+	{
+		fin >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
+	}
+	Wo++;
+		cout << "Ticket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
+			 << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
 		cout << "Is this correct? (y for Yes)" << endl; cin >> ans;
 		if (ans == 'y' || ans == 'Y')
 		{
-			fileOut << "\nThe Machine being written Up is " << makeModel << " the Equiptment Number is " << eqNum << " on the date of " << date << " with the issue of " << issue
-				<< " Current Hours are " << hours << " and next service hours are " << serinterval << " Status: " << status << endl;
-			fileIn << endl << makeModel << " " << eqNum << " " << date << " " << issue << " " << hours << " " << serinterval << " " << status;
+			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
+				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
 			cout << "\nDo You want to add another machine? (Y for yes): "; cin >> ans;
 			if (ans == 'y' || ans == 'Y')
 			{
@@ -122,7 +133,6 @@ void createTicket() {
 			else
 			{
 				fileOut.close();
-				fileIn.close();
 				menu();
 			}
 		}
