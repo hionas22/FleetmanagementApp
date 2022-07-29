@@ -1,4 +1,7 @@
 // Fleet Management software
+// Version 1.11
+//Last Updated 7/29/22
+//Nicholas Hionas
 
 #include<iostream>
 #include<string>
@@ -6,7 +9,6 @@
 #include<cstdlib>
 
 using namespace std;
-
 void addtruck();
 void standardService();
 void startup();
@@ -21,7 +23,7 @@ void status();
 void statusChange();
 
 int main() {
-
+	
 	menu();
 
 	return 0;
@@ -59,7 +61,7 @@ void statusChange()
 				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
 			break;
 		case 2:
-			status = "Working on";
+			status = "WorkingOn";
 			cout << "Enter the date: "; cin >> date;
 			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
 				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
@@ -79,18 +81,13 @@ void status()
 	string makeModel, eqNum, date, issue, status;
 	string a, b, c, d, e, f, g, h;
 	char ans = 'y' || 'Y';
-	int hours, serinterval,Wo=0,pwo;
+	int hours, serinterval,Wo=0;
 	ifstream fileIn("tickets.txt");
-		do
+		while (!fileIn.eof())
 		{
-			pwo = Wo;
 			fileIn >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
-			if (pwo == Wo)
-			{
-				break;
-			}
 			cout << a << Wo << b << makeModel << c << eqNum << d << date << e << issue << f << hours << g << serinterval << h << status << endl;
-		}while (!fileIn.eof());
+		}
 		cout << endl << endl;
 	fileIn.close();
 	ticket();
@@ -105,13 +102,18 @@ void createTicket() {
 	ifstream fin("tickets.txt", ios::app);
 	cout << "Please enter equiptment maitnence or repair information " << "Order (MakeModel, Equiptment Number, Date, Issue, Hours, Next Service Date: )";
 	cin >> makeModel >> eqNum >> date >> issue >> hours >> serinterval;
+	
 	if (issue == "none" || "None")
 	{
-		status = "Okay";
+		status = "NoProblems";
+	}
+	else if(issue == "needsService" || "needsservice" || "NeedsService")
+	{
+		status = "NeedsService";
 	}
 	else
 	{
-		status = "Open";
+		status = "NeedsRepair";
 	}
 	while (!fin.eof())
 	{
