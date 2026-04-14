@@ -1,1117 +1,242 @@
 // Fleet Management software
-// Version 1.11
-//Last Updated 7/30/2022
+// Version 2.0
+//Last Updated 4/14/2026 7/30/2022
 //Nicholas Hionas
 
-#include<iostream>
-#include<string>
-#include<fstream>
-#include<cstdlib>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number One Software Solutions LLC</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #081120 0%, #0b1730 100%);
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0f1b33, #162746 55%, #1d3557);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 24px;
+      padding: 40px 28px;
+      margin-top: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+    }
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      color: #dbeafe;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      margin-bottom: 18px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 24px;
+      align-items: center;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      font-size: 48px;
+      line-height: 1.05;
+      margin-bottom: 14px;
+      color: #f8fafc;
+    }
+    h2, h3 { color: #f8fafc; }
+    .subtext {
+      color: #d6e3f1;
+      max-width: 720px;
+      font-size: 18px;
+    }
+    .logo-box {
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .logo-box img {
+      max-width: 240px;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto 16px;
+    }
+    .contact-row, .services, .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .chip, .contact-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+    .chip:hover, .contact-pill:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.28);
+    }
+    .section {
+      margin-top: 28px;
+      background: rgba(9, 18, 34, 0.58);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+    }
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 16px;
+      color: #f8fafc;
+    }
+    .cards {
+      gap: 18px;
+    }
+    .card {
+      flex: 1 1 300px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #e0f2fe;
+    }
+    ul {
+      padding-left: 18px;
+      margin-bottom: 0;
+    }
+    li { margin-bottom: 10px; color: #dbeafe; }
+    .muted { color: #c9d8ea; }
+    .cta {
+      text-align: center;
+      background: linear-gradient(135deg, #13233f, #17365d);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 22px;
+      padding: 34px 24px;
+      margin: 32px 0;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #38bdf8, #60a5fa);
+      color: #06111f;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: bold;
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.24);
+    }
+    .btn:hover {
+      filter: brightness(1.05);
+    }
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 36px; }
+      .subtext { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="badge">Business Consulting • Computer IT • Software Solutions</div>
+          <h1>Number One Software Solutions LLC</h1>
+          <p class="subtext">
+            Helping businesses improve operations, solve IT problems, and implement practical software solutions that save time, reduce inefficiencies, and support growth.
+          </p>
 
-using namespace std;
-void addtruck();
-void standardService();
-void startup();
-void menu();
-void test(char& ans, string& makeModel, string& unitNum, string& serialNum, string& plate);
-void serviceSwitch(string& makeModel, string& unitNum, string& mechanic, string& date, int& hrMi, string& x);
-void repair();
-void repairService(char& ans, string& makeModel, string& unitNum, string& serialNum, string& plate);
-void ticket();
-void createTicket();
-void status();
-void statusChange();
+          <div class="contact-row" style="margin-top: 20px;">
+            <a class="contact-pill" href="tel:+18563408663">856-340-8663</a>
+            <a class="contact-pill" href="mailto:nhionas2001@gmail.com">nhionas2001@gmail.com</a>
+            <span class="contact-pill">Beverly Hills, FL</span>
+          </div>
+        </div>
 
-int main() {
-	
-	menu();
+        <div class="logo-box">
+          <img src="YOUR-LOGO-URL-HERE" alt="Number One Software Solutions LLC Logo" />
+          <p class="muted" style="margin-bottom:0;">Custom software, IT support, business systems, and consulting for growing companies.</p>
+        </div>
+      </div>
+    </section>
 
-	return 0;
-}
+    <section class="section">
+      <h2 class="section-title">Services</h2>
+      <div class="services">
+        <span class="chip">Business Consulting</span>
+        <span class="chip">IT Support</span>
+        <span class="chip">Custom Software Solutions</span>
+        <span class="chip">Workflow Automation</span>
+        <span class="chip">Systems Setup</span>
+        <span class="chip">Process Optimization</span>
+        <span class="chip">Operations Improvement</span>
+        <span class="chip">Technical Troubleshooting</span>
+      </div>
+    </section>
 
-void statusChange()
-{
-	string makeModel, eqNum, date, issue, status;
-	string a, b, c, d, e, f, g, h;
-	char ans = 'y' || 'Y';
-	int hours, serinterval, Wo = 0,pwo,choice;
-	ifstream fileIn("tickets.txt");
-	ofstream fileOut("tickets.txt", ios::app);
-	cout << "Enter Work Order Number" << endl; cin >> pwo;
-	do
-	{
-		fileIn >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
-		if (pwo == Wo)
-		{
-			break;
-		}
-	} while (!fileIn.eof());
-	cout << a << Wo << b << makeModel << c << eqNum << d << date << e << issue << f << hours << g << serinterval << h << status << endl;
-	cout << "Is the the ticket you wanted?(Y for yes): "; cin >> ans;
-	if (ans == 'y' || ans == 'Y')
-	{
-		cout << "\nChange status \n1) Done \n2) Working On \n3) Waiting On Parts"; cin >> choice;
+    <section class="section">
+      <h2 class="section-title">What We Help With</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Business Consulting</h3>
+          <ul>
+            <li>Improve daily operations and reduce bottlenecks</li>
+            <li>Build better systems for inventory, workflows, and staff coordination</li>
+            <li>Identify inefficiencies and create practical solutions</li>
+          </ul>
+        </div>
 
-		switch (choice)
-		{
-		case 1:
-			status = "Done";
-			cout << "Enter the date: "; cin >> date;
-			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
-				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
-			break;
-		case 2:
-			status = "WorkingOn";
-			cout << "Enter the date: "; cin >> date;
-			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
-				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
-			break;
-		case 3:
-			status = "WaitingOnParts";
-			cout << "Enter the date: "; cin >> date;
-			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue
-				<< " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status << endl;
-			break;
-		default:
-			cout << "Not a choice!";
-			statusChange();
-		}
-		fileIn.close();
-		fileOut.close();
-	}
-	ticket();
-}
+        <div class="card">
+          <h3>Computer IT</h3>
+          <ul>
+            <li>Troubleshoot hardware, software, and network issues</li>
+            <li>Support business technology setup and maintenance</li>
+            <li>Help keep systems reliable, secure, and easy to use</li>
+          </ul>
+        </div>
 
-void status()
-{
-	string makeModel, eqNum, date, issue, status;
-	string a, b, c, d, e, f, g, h;
-	char ans = 'y' || 'Y';
-	int hours, serinterval,Wo=0;
-	ifstream fileIn("tickets.txt");
-		while (!fileIn.eof())
-		{
-			fileIn >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
-			cout << a << Wo << b << makeModel << c << eqNum << d << date << e << issue << f << hours << g << serinterval << h << status << endl;
-		}
-		cout << endl << endl;
-	fileIn.close();
-	ticket();
-}
+        <div class="card">
+          <h3>Software Solutions</h3>
+          <ul>
+            <li>Create custom tools to simplify business processes</li>
+            <li>Automate repetitive tasks and improve reporting</li>
+            <li>Implement systems that help teams work faster and smarter</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-void createTicket() {
-	string makeModel, eqNum, date, issue, issue1, status,status1;
-	string a, b, c, d, e, f, g, h;
-	char ans = 'y' || 'Y';
-	int hours, serinterval, Wo=0;
-	ofstream fileOut("tickets.txt", ios::app);
-	ifstream fin("tickets.txt", ios::app);
-	cout << "Please enter equiptment maitnence or repair information " << "Order (MakeModel, Equiptment Number, Date, Issue, Hours, Next Service Date: )";
-	cin >> makeModel >> eqNum >> date >> issue1 >> hours >> serinterval;
-	
-	if (issue1 == "none" || issue1 == "None")
-	{
-		status1 = "NoProblems";
-	}
-	else if(issue1 == "needsService" || issue1 == "needsservice" || issue1 == "NeedsService")
-	{
-		status1 = "NeedsService";
-	}
-	else
-	{
-		status1 = "NeedsRepair";
-	}
-	while (!fin.eof())
-	{
-		fin >> a >> Wo >> b >> makeModel >> c >> eqNum >> d >> date >> e >> issue >> f >> hours >> g >> serinterval >> h >> status;
-	}
-	Wo++;
-		cout << "Ticket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue1
-			 << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status1 << endl;
-		cout << "Is this correct? (y for Yes)" << endl; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			fileOut << "\nTicket: " << Wo << " Machine: " << makeModel << " Equiptment#: " << eqNum << " Date: " << date << " Issue " << issue1
-				    << " Current_Hr/Miles: " << hours << " Next_Service: " << serinterval << " Status: " << status1 << endl;
-			cout << "\nDo You want to add another machine? (Y for yes): "; cin >> ans;
-			if (ans == 'y' || ans == 'Y')
-			{
-				createTicket();
-			}
-			else
-			{
-				fileOut.close();
-				menu();
-			}
-		}
-		else
-		{
-			createTicket();
-		}
-}
-
-void ticket() {
-
-	int choice;
-	cout << " 1) Create Ticket \n 2) Status Check On Tickets \n 3) Change Status \n 4) Main Menu \n";
-	cout << "Choose what you would like to do" << endl; cin >> choice;
-	switch (choice)
-	{
-	case 1:
-		createTicket();
-		break;
-	case 2:
-		status();
-		break;
-	case 3:
-		statusChange();
-		break;
-	case 4:
-		menu();
-		break;
-	default:
-		cout << "Not a choice!";
-		ticket();
-	}
-}
-
-void repairSwitch(string& makeModel, string& unitNum, string& mechanic, string& date, int& hrMi, string& x) {
-	string partNum, partDiscrpt, work;
-	int qty, quickjob;
-	char ans = 'y' || 'Y';
-	ofstream truckfile(unitNum + makeModel + ".txt", ios::app);
-	truckfile << endl << endl << mechanic << " is working on " << unitNum << " " << makeModel << " at date of " << date << " With " << hrMi << " " << x << endl;
-	cin >> quickjob;
-	switch (quickjob)
-	{
-	case 1: //Engine
-		cout << "Engine Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Engine Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 2: // Fuel System
-		cout << "Fuel System Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Fuel System Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 3://Ignition System
-		cout << "Ignition System Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Ignition System Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 4://Electrical System
-		cout << "Electrical System Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Electrical System Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 5://Exhaust System
-		cout << "Exhaust System Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Exhaust System Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 6:// Drive Train
-		cout << "Drive Train Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Drive Train Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 7://Suspension and Steering System
-		cout << "Suspension and Steering Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Suspension and Steering Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-	case 8://Brake Systems
-		cout << "Brake System" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Brake System \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 9://Frame and Body Repair
-		cout << "Frame and Body Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Frame and Body Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 10://Cooling System
-		cout << "Cooling System Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Cooling Systems Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 11://Tire Repair
-		cout << "Tire Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Tire Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 12://Interior Repair
-		cout << "Interior Repair" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Interior Repair \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 13://Other
-		cout << "Misc Repair See Notes" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Misc Repair See Notes \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	default:
-		cout << "Not A Choice!" << endl;
-		serviceSwitch(makeModel, unitNum, mechanic, date, hrMi, x);
-	}
-
-}
-
-void repairService(char& ans, string& makeModel, string& unitNum, string& serialNum, string& plate) {
-	string mechanic, date, qty, x;
-	int hrMi;
-	cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-	cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-	if (ans == 'y' || ans == 'Y')
-	{
-		cout << "\n\nEnter your name: "; cin >> mechanic;
-		cout << "Enter the date: "; cin >> date;
-		cout << "Enter Miles or Hours (EX 69000 Mi or 4500 Hr): "; cin >> hrMi >> x;
-		cout << mechanic << " is working on " << unitNum << " " << makeModel << " at date of " << date << " with " << hrMi << " " << x << endl;
-		cout << "\n 1) Engine \n 2) Fuel System \n 3) Ignition System \n 4) Electrical System"
-			 << "\n 5) Exhaust System \n 6) Drive Train \n 7) Suspension and Steering System"
-			 << "\n 8) Brake System \n 9) Frame and Body \n 10) Cooling System \n 11) Tire Repair \n 12) Interior Repair \n 13) Other \n";
-		cout << "Choose a number for the repair you are doing: ";
-	}
-	else
-	{
-		menu();
-	}
-	repairSwitch(makeModel, unitNum, mechanic, date, hrMi, x);
-}
-
-void repair() {
-	string unitNum, makeModel, serialNum, plate, unitNum1, input, line, a, b, c;
-	char ans = 'y' || 'y';
-	cout << "What unit number do you want to work on (EX LT-212)?: "; cin >> unitNum1;
-	ifstream file("trucks.txt");
-	if (file.is_open())
-	{
-
-		file >> unitNum >> a >> makeModel >> b >> serialNum >> c >> plate;
-		if (unitNum1 == unitNum)
-		{
-			repairService(ans, makeModel, unitNum, serialNum, plate);
-		}
-		else
-		{
-			while (!file.eof() && unitNum1 != unitNum)
-			{
-				file >> unitNum >> a >> makeModel >> b >> serialNum >> c >> plate;
-
-				if (file.eof() && unitNum1 != unitNum)
-				{
-					cout << "No machine is found!" << endl;
-					menu();
-				}
-				else if (file.eof() && unitNum1 == unitNum)
-				{
-					cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-					cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-					file.close();
-					repairService(ans, makeModel, unitNum, serialNum, plate);
-				}
-				else if (!file.eof() && unitNum1 == unitNum)
-				{
-					cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-					cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-					file.close();
-					repairService(ans, makeModel, unitNum, serialNum, plate);
-				}
-			}
-		}
-	}
-}
-
-void standardService() {
-	string unitNum, makeModel, serialNum, plate, unitNum1, input, line, a, b, c;
-	char ans = 'y' || 'y';
-	cout << "What unit number do you want to work on (EX LT-212)?: "; cin >> unitNum1;
-	ifstream file("trucks.txt");
-	if (file.is_open())
-	{
-
-		file >> unitNum >> a >> makeModel >> b >> serialNum >> c >> plate;
-		if (unitNum1 == unitNum)
-		{
-			test(ans,makeModel,unitNum,serialNum,plate);
-		}
-		else 
-		{
-			while (!file.eof() && unitNum1 != unitNum)
-			{
-				file >> unitNum >> a >> makeModel >> b >> serialNum >> c >> plate;
-
-				if (file.eof() && unitNum1 != unitNum)
-				{
-					cout << "No machine is found!" << endl;
-					menu();
-				}
-				else if (file.eof() && unitNum1 == unitNum)
-				{
-					cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-					cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-					file.close();
-					test(ans, makeModel, unitNum, serialNum, plate);
-				}
-				else if (!file.eof() && unitNum1 == unitNum)
-				{
-					cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-					cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-					file.close();
-					test(ans, makeModel, unitNum, serialNum, plate);
-				}
-			}
-		}
-
-	}
-	
-}
-
-void addtruck() {
-	char ans = 'Y' && 'y';
-	string unitNum, makeModel, serialNum, plate;
-	cout << "Enter Unit Number: ";
-	cin >> unitNum;
-	cout << "Enter Make / Model: ";
-	cin >> makeModel;
-	cout << "Enter Serial Number: ";
-	cin >> serialNum;
-	cout << "Enter License Plate: ";
-	cin >> plate;
-	ofstream fout;
-	ifstream fin;
-	fin.open("trucks.txt");
-	fout.open("trucks.txt", ios::app);
-	if (!fin.is_open()) {
-
-		cout << "File not found";
-	}
-	else {
-		fout << endl << unitNum << " - " << makeModel << " - " << serialNum << " - " << plate;
-		fin.close();
-		fout.close();
-		ofstream other(unitNum + makeModel + ".txt");
-		other.close();
-	}
-	cout << "Do you want to add a truck (No Spaces) (Y or y): "; cin >> ans;
-	if (ans == 'Y' || ans == 'y') {
-		addtruck();
-	}
-	else
-	{
-		exit(25);
-	}
-
-}
-
-void startup() {
-	int pin, checkpin;
-	string name, a, checkname;
-	cout << "Enter your Name: "; cin >> checkname;
-	cout << "Enter your Pin: "; cin >> checkpin;
-	ifstream fin;
-	fin.open("username.txt");
-	if (!fin.is_open()) {
-
-		cout << "File not found";
-	}
-	else {
-		fin >> name >> a >> pin;
-
-		if (checkname == name && checkpin == pin) {
-			fin.close();
-			addtruck();
-		}
-		else
-		{
-			cout << "Your Information is wrong!" << endl;
-			fin.close();
-			startup();
-
-		}
-	}
-}
-
-void menu() {
-	int choice;
-	char ans = 'Y' && 'y';
-	string unitNum, makeModel, serialNum, plate, unitNum1, input, line, a, b, c;
-	cout << endl << endl;
-	ifstream file("trucks.txt");
-	while (!file.eof())
-	{
-		file >> unitNum >> a >> makeModel >> b >> serialNum >> c >> plate;
-		cout << unitNum << " - " << makeModel << " - " << serialNum << " - " << plate << endl;
-	}
-	file.close();
-	cout << "\n 1) Standard Service \n 2) Repairs \n 3) Add New Equiptment \n 4) Exit Program \n 5) Tickets \n";
-	cout << "Choose what you would like to do: "; cin >> choice;
-	switch (choice)
-	{
-	case 1:
-		standardService();
-		break;
-	case 2:
-		repair();
-		break;
-	case 3:
-		addtruck();
-		break;
-	case 4:
-		exit(1);
-		break;
-	case 5:
-		ticket();
-		break;
-	default:
-		cout << "Not a choice try again!" << endl;
-		menu();
-	}
-}
-
-void test(char& ans, string& makeModel, string& unitNum, string& serialNum, string& plate) {
-	string mechanic, date, qty, x;
-	int hrMi;
-	cout << "\nThe Unit you are servicing is: " << unitNum << " " << makeModel << " " << serialNum << " " << plate << endl << endl;
-	cout << "If this is correct please type Y and hit enter: "; cin >> ans;
-	if (ans == 'y' || ans == 'Y')
-	{
-		cout << "\n\nEnter your name: "; cin >> mechanic;
-		cout << "Enter the date: "; cin >> date;
-		cout << "Enter Miles or Hours (EX 69000 Mi or 4500 Hr): "; cin >> hrMi >> x;
-		cout << mechanic << " is working on " << unitNum << " " << makeModel << " at date of " << date << " with " << hrMi << " " << x << endl;
-		cout << "\n 1) Oil Sample \n 2) Change Oil and Filters \n 3) Change Fuel Filters \n 4) Change Air Filters"
-			 << "\n 5) Grease \n 6) Radiator \n 7) Transmission \n 8) Rears \n 9) Front Wheels \n 10) Tire Pressure \n 11) Lights \n 12) Brakes \n 13) Other \n";
-		cout << "Choose a Number for the service you are doing: ";
-	}
-	else
-	{
-		menu();
-	}
-	serviceSwitch(makeModel,unitNum,mechanic,date,hrMi,x);
-
-}
-
-void serviceSwitch(string& makeModel, string& unitNum,string& mechanic,string& date, int& hrMi, string& x) {
-	string partNum, partDiscrpt, work;
-	int qty, quickjob;
-	char ans = 'y' || 'Y';
-	ofstream truckfile(unitNum + makeModel + ".txt", ios::app);
-	truckfile << endl << endl << mechanic << " is working on " << unitNum << " " << makeModel << " at date of " << date << " With " << hrMi << " " << x << endl;
-	cin >> quickjob;
-	switch (quickjob)
-	{
-	case 1: //Oil Sample
-		cout << "Send Out Oil Sample" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Sent Out Oil Sample \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 2: // Change Oil and Filters
-		cout << "Changed Oil and Filters" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Oil and Filters \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 3://Change Fuel Filters
-		cout << "Changed Fuel Filters" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Fuel Filters \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 4://Change Air Filters
-		cout << "Changed Air Filters" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Changed Air Filters \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-			{
-				do
-				{
-					truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-					cin >> qty >> partNum >> partDiscrpt >> work;
-					truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-					cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-				} while (ans == 'y' || ans == 'Y');
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				truckfile.close();
-				menu();
-			}
-			else
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				truckfile.close();
-				menu();
-			}
-		break;
-	case 5://Grease
-		cout << "Greased Machine" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Greased Machine \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 6:// Radiator
-		cout << "Radiator Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Radiator Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 7://Transmission
-		cout << "Transmission Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Transmission Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-	case 8://Rears
-		cout << "Rears Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Rears Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 9://Front Wheels
-		cout << "Front Wheels Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Front Wheels Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 10://Tire Pressure
-		cout << "Tire Pressure Ajustments" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Tire Pressure Adjustments \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 11://:Lights
-		cout << "Lights Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Lights Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 12://Brakes
-		cout << "Brakes Service" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Brakes Service \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	case 13://Other
-		cout << "Misc Service See Notes" << endl;
-		cout << "*****Notes NO SPACES**** \n 1) Quanity \n 2) Part Number \n 3) Part Name \n 4) work" << endl << endl;
-		truckfile << "Service Number: " << quickjob << "\t\t\t\t\t Work Done: Misc Service See Notes \n";
-		cin >> qty >> partNum >> partDiscrpt >> work;
-		cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-		if (ans == 'y' || ans == 'Y')
-		{
-			do
-			{
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-				cin >> qty >> partNum >> partDiscrpt >> work;
-				truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work << endl;
-				cout << "Do you need to add another Part? (Y for Yes): "; cin >> ans;
-			} while (ans == 'y' || ans == 'Y');
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		else
-		{
-			truckfile << endl << "Quanity = " << qty << "\nParts Number = " << partNum << "\nParts Description = " << partDiscrpt << "\nWork Description = " << work;
-			truckfile.close();
-			menu();
-		}
-		break;
-	default:
-		cout << "Not A Choice!" << endl;
-		serviceSwitch( makeModel,  unitNum,  mechanic,  date,hrMi,x);
-	}
-}
+    <section class="cta">
+      <h2>Need help improving your business systems or IT setup?</h2>
+      <p class="muted">Let’s talk about how Number One Software Solutions LLC can support your business.</p>
+      <a class="btn" href="mailto:nhionas2001@gmail.com">Request a Consultation</a>
+    </section>
+  </div>
+</body>
+</html>
